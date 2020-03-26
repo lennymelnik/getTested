@@ -27,8 +27,8 @@ MongoClient.connect(url, function(err, db) {
     var app = express();
     var httpServer = http.createServer(app);
     //var httpsServer = https.createServer(credentials, app);
-    var io = require('socket.io')(httpsServer);
-    httpServer.listen(80);
+    var io = require('socket.io')(httpServer);
+    app.listen(80);
     //httpsServer.listen(443);
 
 
@@ -374,7 +374,7 @@ MongoClient.connect(url, function(err, db) {
 
         } else {
            
-            response.render('home', {user: null});
+            response.sendFile(path.join(__dirname + '/main.html'));
         }
     });
 
