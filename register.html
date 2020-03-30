@@ -37,15 +37,13 @@
     <form class="form-signin" action="create" method="POST">
       <img class="mb-4" src="logo.png" alt="" width="72" height="72">
       <h1 class="h3 mb-3 font-weight-normal">Please enter your infomation</h1>
-      <label for="inputEmail" class="sr-only"> Account Type</label>
-      <select class="form-control form-control-lg" name ="accountType">
-        <option value=0 >Patient</option>
-        <option value=1>Testing Facility</option>
-      </select>
-      <label for="inputEmail" class="sr-only">Full Name</label>
-      <input name ="fullname" type="fullname" id="inputFullname" class="form-control" placeholder="Fullname" required="" autofocus="">
-      <label for="inputEmail" class="sr-only">Username</label>
-      <input name ="username" type="username" id="inputUsername" class="form-control" placeholder="Username" required="" autofocus="">
+      <input name="accountType" value="0" type="hidden">
+      <label for="inputEmail" class="sr-only">First Name</label>
+      <input name ="firstname" type="fullname" id="inputFullname" class="form-control" placeholder="First Name" required="" autofocus="">
+      <label for="inputEmail" class="sr-only">Last Name</label>
+      <input name ="lastname" type="fullname" id="inputFullname" class="form-control" placeholder="Last Name" required="" autofocus="">
+      <label for="inputEmail" class="sr-only">Phone Number</label>
+      <input name ="phone" type="fullname" id="inputFullname" class="form-control" placeholder="Phone Number" required="" autofocus="">
       <label for="inputEmail" class="sr-only">Email address</label>
       <input name ="email" type="email" id="inputEmail" class="form-control" placeholder="Email address" required="" autofocus="">
       <label for="inputPassword" class="sr-only">Password</label>

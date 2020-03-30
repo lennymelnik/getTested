@@ -1,0 +1,89 @@
+
+
+     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+    <h2>Your Testing Stations</h2>
+    <table class="table table-bordered table-striped">
+      <thead>
+        <tr>
+          <th style="width: 100px;">Name</th>
+          <th style="width: 50px;">Opening Time</th>
+          <th style="width: 50px;">Closing time</th>
+          <th>Appointment Length</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for(i=0;i< user.testingStation.length; i++){ %>
+        <tr>
+          <td><%= user.testingStation[i].name%></td>
+          <td><%=user.testingStation[i].timeOpen%></td>
+          <td><%=user.testingStation[i].timeClose%></td>
+          <td><%=user.testingStation[i].appointmentLength%> Minutes</td>
+        </tr>
+        <% } %>
+      </tbody>
+    </table>
+     
+     
+      <br>
+      
+
+<!-- Add new testing station modal-->
+      <button type="button" class="btn btn-primary btn-lg btn-block" data-toggle="modal" data-target="#addTesting">Add Testing Station</button>
+      <div class="modal fade" id="addTesting" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <form action="addTesting" method="POST">
+          <div class="modal-content">
+
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalCenterTitle">Add Testing Station</h5>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <h3>Choose a Name</h3>
+                <input name="testingName" class="form-control form-control-lg" type="text" placeholder="Name">
+                <br>
+               <h3>What time does it open?</h3>
+                <input name = "timeOpen" class="form-control" type="time" value="13:45:00" id="example-time-input">
+                <br>
+                <h3>What time does it close?</h3>
+                <input name = "timeClose" class="form-control" type="time" value="13:45:00" id="example-time-input">
+                <br>
+                <h3>How many minutes is each appointment?</h3>
+                <input name = "appointmentLength" type="range" class="form-control-range" id="appointmentTime" min="1" max="60" value="15">
+                <h5>Minutes: <span id="timeValue"></span></h5>
+
+                
+
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+          </div>
+        </form>
+        </div>
+      </div>
+    </main>
+ 
+    <script src="jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+    <script>window.jQuery || document.write('<script src="/docs/4.4/assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script>
+      <script src="feather.min.js"></script>
+     
+     
+
+        <script>
+            $('#myModal').on('shown.bs.modal', function () {
+          $('#myInput').trigger('focus')
+        })
+        
+        var slider = document.getElementById("appointmentTime");
+        var output = document.getElementById("timeValue");
+        output.innerHTML = slider.value; // Display the default slider value
+        
+        // Update the current slider value (each time you drag the slider handle)
+        slider.oninput = function() {
+          output.innerHTML = this.value;
+        }
+        </script>

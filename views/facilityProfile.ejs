@@ -1,0 +1,239 @@
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket = io.connect('http://192.168.0.140', {
+        secure: true
+    });
+    var localData = null
+   
+    socket.emit('requestAppointments', {
+        userId: '<%= profile.userId %>',
+    });
+
+
+    socket.on('appointments', function (data) {
+        localData = data.clinicProfile
+        htmlStation = "<option selected>Choose...</option>"
+        for (i = 0; i < localData.length; i++){
+            htmlStation = htmlStation + "<option value="+ i+ ">" + localData[i].name +"</option>"
+        }
+        $("#station").html(htmlStation)
+       
+        $("#station").change(function () {
+            var htmlMonth = "<option selected>Choose...</option>"
+            var val = $(this).val();
+            var monthsUsed = []
+            for (i = 0; i < localData[val].appointments.length; i++){
+                for (x = 0; x < localData[val].appointments[i].times.length; x++){
+                if((localData[val].appointments[i].times[x].patient == null)){
+
+
+            monthName = getMonthName(localData[val].appointments[i].date)
+            monthNum = new Date(localData[val].appointments[i].date)
+            if(!(monthsUsed.includes(monthName))){
+                htmlMonth = htmlMonth + "<option value="+ monthNum.getMonth() + ">" + monthName +"</option>"
+                monthsUsed.push(monthName)
+            }
+            
+        }
+    }
+            
+        }
+        $("#month").html(htmlMonth)
+    })
+        console.log("Passing value")
+        console.log()
+
+        
+
+        $("#month").change(function () {
+            var htmlDate = "<option selected>Choose...</option>"
+            var val = $(this).val();
+            var station = $("#station").val()
+            console.log(station)
+            var datesUsed = []
+
+            console.log(val)
+            for (i = 0; i < localData[station].appointments.length; i++){
+                for (x = 0; x < localData[station].appointments[i].times.length; x++){
+                if((localData[station].appointments[i].times[x].patient == null)){
+            date = new Date(localData[station].appointments[i].date)
+            dateNum = date.getDate()
+            console.log(getMonthName(date))
+
+
+           
+            if(date.getMonth()  == val){
+                if(!(datesUsed.includes(dateNum))){
+                htmlDate = htmlDate + "<option value="+ i + ">" + dateNum +"</option>"
+                    datesUsed.push(dateNum)
+                }
+            }
+        }
+    }
+            
+           
+            
+            
+        
+            }
+            $("#day").html(htmlDate)
+        })
+        $("#day").change(function () {
+            var htmlTime = "<option selected>Choose...</option>"
+            var val = $(this).val();
+            var station = $("#station").val()
+            var month = $("month").val()
+            function getlength(number) {
+    return number.toString().length;
+}   
+          
+    
+            console.log(localData[station].appointments[val].times.length)
+            console.log("setting final values", localData[station].appointments[val].date)
+            for (i = 0; i < localData[station].appointments[val].times.length; i++){
+                if((localData[station].appointments[val].times[i].patient == null)){
+                date = localData[station].appointments[val].times[i].time
+                console.log($("#constant").val())
+                firstDigits = Math.floor(parseInt(date)/60)
+                lastDigits = date%60
+                var dayOrNight = ""
+                var finalFormat = ""
+                if(firstDigits > 12){
+                    dayOrNight = " P.M"
+                }
+                else{
+                    dayOrNight = " A.M"
+                }
+                if(getlength(lastDigits) == 1){
+                    finalFormat = firstDigits + ":0" +lastDigits + dayOrNight
+                }
+                else{
+                    finalFormat = firstDigits + ":" +lastDigits + dayOrNight
+                }
+               
+                time = "<option value=" + i + ">" + finalFormat + "</option>"
+
+                htmlTime = htmlTime + time
+                
+                
+            
+        
+            }
+        }
+            $("#time").html(htmlTime)
+
+            
+            
+             
+        })
+        $("#time").change(function () {
+            document.getElementById("reserve").addEventListener("click", submitAppointment);
+            function submitAppointment(){
+                socket.emit('reserve', { station : $("#station").val(),
+                month : $("#month").val(),
+                day : $("#day").val(),
+                time : $("#time").val(),
+                timeStamp : localData[$("#station").val()].appointments[$("#day").val()].date,
+                userId: '<%= user.userId %>',
+                clinicId: '<%= profile.userId %>'
+            } );
+            }
+
+            
+        })
+
+
+
+
+    
+    })
+
+
+</script>
+
+
+<h1><%= profile.firstName %> <%= profile.lastName %></h1>
+<br>
+<h3>Book an appointment below:</h3>
+
+
+ <div class="card" style="width: 30rem;">
+    <div class="card-body">
+       
+        <div class="form-row">
+            <div class="form-group col-md-4">
+                <label for="station">Station</label>
+                <select name="station" id="station" class="form-control">
+                  <option selected>Choose...</option>
+                  <option>...</option>
+                </select>
+              </div>
+            <div class="form-group col-md-4">
+                <label for="month">Month</label>
+                <select name="month" id="month" class="form-control">
+                  <option selected>Choose...</option>
+                  <option>...</option>
+                </select>
+              </div>
+            <div class="form-group col-md-4">
+              <label for="day">Day</label>
+              <select name="day" id="day" class="form-control">
+                <option selected>Choose...</option>
+                <option>...</option>
+              </select>
+            </div>
+            <div class="form-group col-md-4">
+                <label for="time">Time</label>
+                <select name="time" id="time" class="form-control">
+                  <option selected>Choose...</option>
+                  <option>...</option>
+                </select>
+              </div>
+          
+              <button id="reserve" type="submit" class="btn btn-primary btn-lg btn-block">Reserve Time</button>
+
+          </div>
+      
+</div>
+</div>
+<script>
+
+
+//When a Month is clicked. Create options that hold all the non null. First try to return non null
+    function getMonthName(d) {
+    var month = new Array();
+    month[0] = "January";
+    month[1] = "February";
+     month[2] = "March";
+     month[3] = "April";
+    month[4] = "May";
+    month[5] = "June";
+  month[6] = "July";
+  month[7] = "August";
+  month[8] = "September";
+  month[9] = "October";
+  month[10] = "November";
+  month[11] = "December";
+    d = new Date(d);
+  var n = month[d.getMonth()];
+  return n
+}
+function numToMonth(d) {
+    var month = new Array();
+    month[0] = "January";
+    month[1] = "February";
+     month[2] = "March";
+     month[3] = "April";
+    month[4] = "May";
+    month[5] = "June";
+  month[6] = "July";
+  month[7] = "August";
+  month[8] = "September";
+  month[9] = "October";
+  month[10] = "November";
+  month[11] = "December";
+   
+  var n = month[d];
+  return n
+}
+</script>

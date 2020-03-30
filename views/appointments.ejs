@@ -1,0 +1,102 @@
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    //Get all the patients and their details
+    var socket = io.connect('http://192.168.0.140', {
+        secure: true
+    });
+    var localData = null
+    var patients
+    socket.emit('requestPatients', {
+        userId: '<%= user.userId %>',
+    });
+    socket.on('patients', function (data) {
+   patientStartHtml = '<table class="table table-bordered table-striped"><thead><tr><th style="width: 50px;">Patient Id:</th><th style="width: 50px;">Date:</th><th style="width: 50px;">Time:</th><th style="width: 50px;">Station Name:</th><th style="width: 50px;">Notes:</th><th style="width: 50px;"></th></tr></thead><tbody>'
+        patientEndHtml = '</tbody></table>'
+       
+     
+      
+        console.log("hello")
+        console.log(data.clinicProfile)
+        for (i=0; i < data.clinicProfile.length;i++){
+            
+            for (x=0; x < data.clinicProfile[i].appointments.length;x++){
+                
+                for (t=0; t < data.clinicProfile[i].appointments[x].times.length;t++){
+                    
+                    if(!(data.clinicProfile[i].appointments[x].times[t].patient == null)){
+                        stationName = data.clinicProfile[i].name
+                        dateTime = new Date(data.clinicProfile[i].appointments[x].date)
+                        console.log(dateTime)
+                        time = data.clinicProfile[i].appointments[x].times[t].time
+                        patientId = data.clinicProfile[i].appointments[x].times[t].patient
+                        firstDigits = Math.floor(parseInt(time)/60)
+                lastDigits = time%60
+                var dayOrNight = ""
+                var finalFormat = ""
+                if(firstDigits > 12){
+                    dayOrNight = " P.M"
+                }
+                else{
+                    dayOrNight = " A.M"
+                }
+                if(getlength(lastDigits) == 1){
+                    finalFormat = firstDigits + ":0" +lastDigits + dayOrNight
+                }
+                else{
+                    finalFormat = firstDigits + ":" +lastDigits + dayOrNight
+                }
+                
+
+                        patientStartHtml = patientStartHtml + '<tr><td>'+ patientId +'</td><td>'+ numToMonth(dateTime.getMonth()) +' ' + dateTime.getDate()+'</td><td>'+finalFormat+'</td><td>'+ stationName+'</td><td><input id="'+ patientId + '|' + dateTime +'" type="text" class="form-control" aria-label="Default" aria-describedby="inputGroup-sizing-default"></td><td><button id="'+ patientId + '|' + dateTime +'submit" type="button" class="btn btn-primary btn-lg btn-block">Submit Notes</button></td></tr>'
+
+
+                    }
+
+
+                }
+
+
+            }
+
+
+
+        }
+        $("#totalList").html(patientStartHtml + patientEndHtml)
+
+    })
+
+</script>
+
+<main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4"><div class="chartjs-size-monitor" style="position: absolute; left: 0px; top: 0px; right: 0px; bottom: 0px; overflow: hidden; pointer-events: none; visibility: hidden; z-index: -1;"><div class="chartjs-size-monitor-expand" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:1000000px;height:1000000px;left:0;top:0"></div></div><div class="chartjs-size-monitor-shrink" style="position:absolute;left:0;top:0;right:0;bottom:0;overflow:hidden;pointer-events:none;visibility:hidden;z-index:-1;"><div style="position:absolute;width:200%;height:200%;left:0; top:0"></div></div></div>
+  
+<h1>Appointments</h1>
+<a id="totalList"></a>
+</main>
+
+<script src="jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+         <script>window.jQuery || document.write('<script src="/docs/4.4/assets/js/vendor/jquery.slim.min.js"><\/script>')</script><script src="bootstrap.bundle.min.js" integrity="sha384-6khuMg9gaYr5AxOqhkVIODVIvm9ynTT5J4V1cfthmT+emCG6yVmEZsRHdxlotUnm" crossorigin="anonymous"></script>
+           <script src="feather.min.js"></script>
+           <script>
+               function numToMonth(d) {
+    var month = new Array();
+    month[0] = "January";
+    month[1] = "February";
+     month[2] = "March";
+     month[3] = "April";
+    month[4] = "May";
+    month[5] = "June";
+  month[6] = "July";
+  month[7] = "August";
+  month[8] = "September";
+  month[9] = "October";
+  month[10] = "November";
+  month[11] = "December";
+   
+  var n = month[d];
+  return n
+}
+function getlength(number) {
+    return number.toString().length;
+}   
+           </script>
+        

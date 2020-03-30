@@ -1,0 +1,24 @@
+
+ <h1>Testing Facilities</h1>
+
+      <% for (i=0; i < clinics.length; i++){ %>
+      
+
+      <div class="card" style="width: 18rem;">
+        <div class="card-body">
+          <h5 class="card-title"><%= clinics[i].clinicName%></h5>
+          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item">Address: <%= clinics[i].location.address%></li>
+          <li class="list-group-item">City: <%= clinics[i].location.city%></li>
+          <li class="list-group-item">State: <%= clinics[i].location.state%></li>
+          <li class="list-group-item">Zip: <%= clinics[i].location.zip%></li>
+        </ul>
+        <div class="card-body">
+          <a href="/clinic?facilityCode=<%= clinics[i].facilityCode%>" class="card-link">Book Testing</a>
+          
+        </div>
+      </div>
+      <% } %>
+  
