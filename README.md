@@ -21,12 +21,12 @@
 	* Some stations could open earlier than others, anything is possible.
 
 * Gives patients a super easy and intuitive platform to reserve and view their appointments
- * Many people don't know how to use complex programs, this website is super simple to make sure everyone can get tested
+ 	* Many people don't know how to use complex programs, this website is super simple to make sure everyone can get tested
 
 * Allows for patients to view their results as soon as they come out
- * Allows for people to get results quick so they can take immediate action and potentially save many lives
+ 	* Allows for people to get results quick so they can take immediate action and potentially save many lives
 
 *  Helps people find testing centers near them
 *  Gives testing centers full control and understanding of data
- * The breakdown of data can allow testing centers to change their hours and really anything else based on the patters they see.    
+ 	* The breakdown of data can allow testing centers to change their hours and really anything else based on the patters they see.    
  
