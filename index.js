@@ -15,8 +15,8 @@ const saltRounds = 10;
 
 var MongoClient = require('mongodb').MongoClient;
 var ObjectId = require('mongodb').ObjectID;
-var url = "mongodb://symple.city:27017/mydb";
-//mongodb://216.250.126.175:27017,216.250.126.175:27018/mydb?replicaSet=rs0
+var url = "mongodb://localhost:27017/mydb";
+
 
 
 
