@@ -9,7 +9,7 @@
   "author": "Leonard Melnik & Abby Makovoz",
   "license": "ISC",
   "dependencies": {
-    "bcrypt": "^4.0.1",
+    "bcrypt": "^5.0.0",
     "bower": "^1.8.8",
     "ejs": "^3.0.1",
     "express": "^4.17.1",
