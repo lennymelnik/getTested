@@ -1,6 +1,6 @@
 # getTested
 ### A platform to streamline testing and distributing results for COVID-19
-
+<iframe width="448" height="150" src="https://www.youtube.com/embed/ADQCWBACkAk" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 #### The amount of panic and misinformation about testing centers has led to alot of people not being able to get tested for COVID-19. Spreading the pandemic even more.
 
